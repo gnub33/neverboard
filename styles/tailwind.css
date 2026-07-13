@@ -10,3 +10,17 @@
   --font-sans: "DM Sans", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  @apply bg-white text-black;
+}
+
+.dark *{
+  @apply bg-gray-900 text-white;
+}
+
+.dark button{
+  @apply bg-gray-900 text-white;
+}
