@@ -46,6 +46,8 @@ export function Form<T extends Record<string, unknown>>({
   const [fields, setFields] = useState<T>();
 
   const move = useEffectEvent((move: FormStatus["move"]) => {
+    if(!fields) return;
+    
     if (move === "next") return next(fields);
     if (move === "back") return back(fields);
   });
