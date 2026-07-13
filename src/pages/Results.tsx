@@ -1,5 +1,6 @@
 import type { QuestionnaireOuput } from "./Questionnaire";
 import sorry from "../assets/sorry.png"
+import { useEffect } from "react";
 
 interface ResultsProps {
   results: QuestionnaireOuput | null;
@@ -7,13 +8,12 @@ interface ResultsProps {
 }
 
 export default function Results({ results, onStart }: ResultsProps) {
+    useEffect(() => {
+      console.log(results);
+    }, [results]);
   return (
     <main className="min-h-screen flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold" >Results Coming Soon!</h1>
-
-      {/* <pre>
-        {JSON.stringify(results, null, 2)}
-      </pre> */}
 
       <p>This app is currently under development so please check back later.</p>
       <img 
