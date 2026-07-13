@@ -17,6 +17,8 @@ import type { Status, FormStatus } from "./types/status";
 import { Form } from "./components/form";
 import { Done } from "./components/done";
 
+//Apple
+
 type Schema = {
   render: React.ReactNode;
   struct: [
@@ -43,25 +45,13 @@ type Schema = {
     s.Form<{ luck: string }>,
     s.Form<{ themes: string[] }>,
 
-    s.Return<
-      | {
-          playerCount: number;
-          allAges: true;
-          educational: string;
-          ages?: string;
-          focus?: string;
-          experience: string[];
-          luck: string;
-          themes: string[];
-        }
-      | {
-          playerCount: number;
-          allAges: false;
-          experience: string[];
-          luck: string;
-          themes: string[];
-        }
-    >
+   s.Return<{
+      playerCount: number;
+      allAges: boolean;
+      experience: string[];
+      luck: string;
+      themes: string[];
+    }>
   ];
   inputs: Record<never, never>;
   params: {
@@ -416,37 +406,13 @@ const flow: Flow<Schema> = [
       },
     },
   {
-    return: ({
-      playerCount,
-      allAges,
-      educational,
-      ages,
-      focus,
-      experience,
-      luck,
-      themes,
-    }) => {
-      if (allAges === "yes") {
-        return {
-          playerCount,
-          allAges: true,
-          educational,
-          ages,
-          focus,
-          experience,
-          luck,
-          themes,
-        };
-      }
-
-      return {
+    return: ({ playerCount, allAges, experience, luck, themes, }) => ({
         playerCount,
-        allAges: false,
+        allAges: allAges === "yes",
         experience,
         luck,
         themes,
-      };
-    }
+    })
   },
 ];
 
