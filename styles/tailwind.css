@@ -20,7 +20,3 @@ body {
 .dark *{
   @apply bg-gray-900 text-white;
 }
-
-.dark button{
-  @apply bg-gray-900 text-white;
-}

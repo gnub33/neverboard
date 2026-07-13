@@ -12,10 +12,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import type { Status, FormStatus } from "../types/status";
+import type { FormStatus } from "../types/status";
 
 import { Form } from "../components/form";
-import { Done } from "../components/done";
+//import { Done } from "../components/done";
+
+interface QuestionnaireProps {
+  onComplete: (output: ReturnOutput<Schema>) => void;
+}
 
 
 
@@ -59,6 +63,8 @@ type Schema = {
     setStatus: (status: FormStatus) => void;
   };
 };
+
+export type QuestionnaireOuput = ReturnOutput<Schema>
 
 const flow: Flow<Schema> = [
   {
@@ -416,35 +422,25 @@ const flow: Flow<Schema> = [
   },
 ];
 
-export default function Questionnaire() {
-  const [status, setStatus] = useState<Status<ReturnOutput<Schema>>>({
+export default function Questionaire({ onComplete }: QuestionnaireProps) {
+  const [status, setStatus] = useState<FormStatus>({
     type: "form",
     move: false,
     submitting: false,
-  });
+  })
 
   const onReturn = useCallback<OnReturn<Schema>>(async (output) => {
     setStatus({ type: "form", move: false, submitting: true });
 
     // Show output in the console
-    console.log(output);
+    //console.log(output);
 
     // Simulate a network request
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    setStatus({ type: "done", output });
-  }, []);
+    onComplete(output);
 
-  if (status.type === "done") {
-    return (
-      <Done
-        output={status.output}
-        onStartOver={() =>
-          setStatus({ type: "form", move: false, submitting: false })
-        }
-      />
-    );
-  }
+  }, [onComplete]);
 
   return (
     <Formity<Schema>

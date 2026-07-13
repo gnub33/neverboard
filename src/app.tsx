@@ -3,9 +3,11 @@ import Navbar from "./components/Navbar";
 import LandingPage from "./pages/LandingPage";
 import Questionnaire from "./pages/Questionnaire";
 import Results from "./pages/Results";
+import type { QuestionnaireOuput } from "./pages/Questionnaire";
 
 function App() {
   const [page, setPage] = useState("landing");
+  const [results, setResults] = useState<QuestionnaireOuput | null>(null);
 
   return (
     <>
@@ -16,11 +18,17 @@ function App() {
       )}
 
       {page === "questionnaire" && (
-        <Questionnaire />
+        <Questionnaire
+          onComplete={(output) => {
+            setResults(output);
+            setPage("results");
+          }}
+        />
       )}
 
       {page === "results" && (
         <Results
+        results={results}
           onStart={() => setPage("landing")}
         />
       )}
